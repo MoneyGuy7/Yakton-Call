@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0b0d12">
+  <meta name="description" content="Yakton Call — simple, private room-based video calls.">
+  <title>Yakton Call</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="Yakton Call home">
+      <span class="brand-mark"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 9.5 16 4l10 5.5v13L16 28 6 22.5z" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round"/><path d="m11 12 5 8 5-8" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span>yakton<span class="brand-light">call</span></span>
+    </a>
+    <div class="topbar-right"><span class="secure-dot"></span><span>Browser-to-browser calling</span><a href="#how-it-works">How it works</a></div>
+  </header>
+
+  <main>
+    <section id="lobby" class="lobby">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-line"></span> GOOD CONVERSATIONS START HERE</div>
+        <h1>Closer, even<br>when <span>apart.</span></h1>
+        <p class="hero-description">A simple space to talk face to face. Share a room code, bring your people, and you’re in.</p>
+        <div class="feature-pills"><span><i class="mini-icon">✳</i> HD-ready video</span><span><i class="mini-icon">⌁</i> Live room chat</span><span><i class="mini-icon">◈</i> No account needed</span></div>
+      </div>
+      <div class="join-card">
+        <div class="card-glow"></div>
+        <div class="card-heading"><div><div class="card-kicker">YOUR SPACE</div><h2>Join a room</h2></div><div class="join-icon"><svg viewBox="0 0 24 24"><path d="M15 10 21 6v12l-6-4M3 7.5A2.5 2.5 0 0 1 5.5 5h7A2.5 2.5 0 0 1 15 7.5v9a2.5 2.5 0 0 1-2.5 2.5h-7A2.5 2.5 0 0 1 3 16.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></div></div>
+        <form id="join-form">
+          <label for="display-name">YOUR NAME</label>
+          <input id="display-name" name="name" maxlength="32" placeholder="What should people call you?" autocomplete="nickname" required>
+          <label for="room-code">ROOM CODE</label>
+          <div class="room-input-wrap"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M7 9h.01M11 9h.01M15 9h.01M7 13h.01M11 13h.01M15 13h.01" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><input id="room-code" name="room" maxlength="32" placeholder="e.g. friday-friends" autocomplete="off" required><button type="button" id="generate-code" class="generate-btn" title="Generate a room code">Generate</button></div>
+          <button class="primary-btn" type="submit"><span>Join room</span><svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <p id="lobby-error" class="form-error" role="alert"></p>
+          <div class="privacy-note"><span class="lock-icon">♢</span> Your camera and mic are only used after you join.</div>
+        </form>
+      </div>
+      <div class="lobby-bottom"><div class="avatar-stack"><span>Y</span><span>C</span><span>✳</span></div><p>Made for the people you want to see.</p><div class="bottom-line"></div></div>
+    </section>
+
+    <section id="call" class="call-view hidden" aria-label="Call room">
+      <div class="call-top">
+        <div class="room-title"><div class="live-indicator"></div><div><div class="room-title-label">YOU’RE IN A ROOM</div><h2 id="call-room-title">Room name</h2></div></div>
+        <div class="call-top-actions"><span id="connection-status" class="status-pill"><span class="status-dot"></span> Connecting</span><button id="copy-invite" class="icon-text-btn" title="Copy invite link"><svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg> Invite</button></div>
+      </div>
+      <div class="call-layout">
+        <section class="stage">
+          <div id="video-grid" class="video-grid">
+            <article class="video-tile local-tile" id="local-tile">
+              <video id="local-video" autoplay playsinline muted></video>
+              <div class="video-placeholder" id="local-placeholder"><span class="placeholder-avatar" id="local-avatar">Y</span><span>Camera is off</span></div>
+              <div class="tile-label"><span class="you-dot"></span><span id="local-name">You</span><span class="you-tag">YOU</span></div>
+              <div class="tile-mic" id="local-mic-state">🎙</div>
+            </article>
+            <div id="empty-state" class="empty-state"><div class="empty-illustration"><span>✳</span><span>◌</span><span>✧</span></div><h3>Your people will appear here</h3><p>Share the room code to bring everyone together.</p><button id="copy-room-code" class="subtle-btn">Copy room code</button></div>
+          </div>
+          <div class="stage-footer"><span><span class="stage-dot"></span> Calls work best in a quiet place</span><span id="participant-count">1 person here</span></div>
+        </section>
+        <aside class="chat-panel">
+          <div class="chat-header"><div><h3>Room chat</h3><p>Messages for everyone here</p></div><span class="chat-header-icon">↗</span></div>
+          <div id="chat-messages" class="chat-messages"><div class="chat-system-message"><span class="system-star">✳</span><p>Welcome to the room. Say hello while everyone joins.</p></div></div>
+          <div id="typing-note" class="typing-note"></div>
+          <form id="chat-form" class="chat-form"><input id="chat-input" maxlength="500" placeholder="Write a message…" autocomplete="off" aria-label="Chat message"><button aria-label="Send message" type="submit"><svg viewBox="0 0 24 24"><path d="m4 4 16 8-16 8 3-8zM7 12h13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></svg></button></form>
+          <div class="chat-footnote">Be kind. Everyone in this room can see messages.</div>
+        </aside>
+      </div>
+      <div class="control-dock">
+        <div class="device-control"><button id="mic-btn" class="control-btn active" aria-label="Mute microphone" title="Mute microphone"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21m-4 0h8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button><button class="chevron-btn" id="mic-menu-btn" aria-label="Choose microphone">⌄</button><div class="device-menu hidden" id="mic-menu"><label for="mic-select">Microphone</label><select id="mic-select"></select><label for="output-select">Speaker</label><select id="output-select"></select></div><span>Mic</span></div>
+        <div class="device-control"><button id="camera-btn" class="control-btn active" aria-label="Turn camera off" title="Turn camera off"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m15 10 6-3v10l-6-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></button><button class="chevron-btn" id="camera-menu-btn" aria-label="Choose camera">⌄</button><div class="device-menu hidden" id="camera-menu"><label for="camera-select">Camera</label><select id="camera-select"></select></div><span>Camera</span></div>
+        <div class="dock-divider"></div>
+        <button id="leave-btn" class="leave-btn"><svg viewBox="0 0 24 24"><path d="M8 8 16 16M16 8l-8 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M5 5h14v14H5z" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".6"/></svg> Leave</button>
+        <div class="dock-right"><span class="encrypted-mark">◈</span><span>Yakton Call</span></div>
+      </div>
+      <div id="toast" class="toast" role="status"></div>
+    </section>
+    <section id="how-it-works" class="how-section"><div class="how-heading"><div class="eyebrow">SIMPLE BY DESIGN</div><h2>Good talks. No complicated setup.</h2></div><div class="how-cards"><article><span class="how-number">01</span><div class="how-symbol">⌘</div><h3>Pick a room code</h3><p>Create your own code or use one someone shared with you.</p></article><article><span class="how-number">02</span><div class="how-symbol">◉</div><h3>Allow camera & mic</h3><p>Choose your devices and control them any time during the call.</p></article><article><span class="how-number">03</span><div class="how-symbol">↗</div><h3>Bring everyone in</h3><p>Send the invite link and chat while you catch up face to face.</p></article></div><footer>© <span id="year"></span> Yakton Call <span class="footer-separator">·</span> Built for better conversations</footer></section>
+  </main>
+  <script src="./app.js" defer></script>
+</body>
+</html>

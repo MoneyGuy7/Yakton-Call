@@ -1,0 +1,16 @@
+name = "yakton-call"
+main = "worker.js"
+compatibility_date = "2026-10-15"
+
+[durable_objects]
+bindings = [
+  { name = "ROOMS", class_name = "Room" }
+]
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["Room"]
+
+[vars]
+# No secrets required for basic signaling.
+# Configure your TURN provider separately if you use authenticated TURN credentials.
